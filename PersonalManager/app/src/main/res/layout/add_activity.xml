@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/noteTitleTextToAdd"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/note_title"
+        android:inputType="text"
+        android:maxLength="100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/noteDescriptionTextToAdd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start"
+        android:hint="@string/note_description"
+        android:inputType="text"
+        android:lines="10"
+        android:maxLines="@integer/max_lines_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/addActivityFlow"
+        tools:layout_editor_absoluteY="70dp" />
+
+
+    <Button
+        android:id="@+id/addNoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/add_note_string"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/addActivityFlow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:constraint_referenced_ids="noteTitleTextToAdd,noteDescriptionTextToAdd,addNoteButton"
+        app:flow_wrapMode="chain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+
+    </androidx.constraintlayout.helper.widget.Flow>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

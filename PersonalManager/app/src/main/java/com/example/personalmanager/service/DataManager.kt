@@ -8,4 +8,8 @@ interface DataManager {
     fun add(newNote:Note)
     fun save(editNote:Note)
     fun destroy()
+    fun getMaxId(): Int
+    fun getCurrentIndex(): Int
+    fun setCurrentIndex(newIndex:Int)
+
 }

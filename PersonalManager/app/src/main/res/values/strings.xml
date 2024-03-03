@@ -5,4 +5,7 @@
     <string name="button_add_text">ДОБАВИТЬ</string>
     <string name="button_save_text">СОХРАНИТЬ</string>
     <string name="button_last_note_text">ПОКАЗАТЬ ПОСЛЕДНЮЮ ЗАМЕТКУ</string>
+    <string name="title_activity_edit">EditActivity</string>
+    <string name="title_activity_add">AddActivity</string>
+    <string name="add_note_string">ДОБАВИТЬ</string>
 </resources>
