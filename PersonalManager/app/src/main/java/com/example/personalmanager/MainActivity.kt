@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.example.personalmanager.model.Note
 import com.example.personalmanager.service.DataManager
 import kotlinx.serialization.encodeToString
@@ -29,6 +30,11 @@ class MainActivity : AppCompatActivity() {
         } else {
             setContentView(R.layout.main_activity_album)
             Toast.makeText(applicationContext, "ORIENTATION_LANDSCAPE", Toast.LENGTH_SHORT).show()
+            var fragment = supportFragmentManager.findFragmentById(R.id.fragmentNoteList)
+            if(fragment == null){
+                fragment = ListFragment()
+                supportFragmentManager.beginTransaction().add(R.id.fragmentNoteList,fragment).commit()
+            }
         }
         dataManager = graph.dataManager
         dataManager.setCurrentIndex(savedInstanceState?.getInt("count", 0)?.minus(1) ?: 0)
