@@ -1,33 +1,41 @@
 package com.example.personalmanager.service
 
+import android.content.Context
 import android.util.Log
 import com.example.personalmanager.model.Note
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class ListIteratorNoteRepository : DataManager {
+class ListIteratorNoteRepository(val context: Context) : DataManager {
     private var iterator: Int = 0
 
     @Serializable
     private val noteList: ArrayList<Note>
     private val fileName = "temp_note_file.txt"
 
-    constructor() {
-        val fileService = FileService()
+    init {
+        val fileService = FileService(context)
         val json = Json
+        noteList = json.decodeFromString(
+            runBlocking { fileService.read(fileName) }
+        )
 
-        noteList = json.decodeFromString(fileService.read(fileName))
     }
 
     override fun next(): Note {
         Log.v("NoteRepositoryDebug", "next $Note")
         iterator += 1
-        if (noteList.size <= iterator) {
+        if(noteList.size <= 0) {
+            iterator = 0
+          return Note()
+        }
+        else if (noteList.size <= iterator) {
             iterator = 0
         }
-        var debugNote = noteList[iterator]
+        val debugNote = noteList[iterator]
         Log.v("NoteRepositoryDebug", "next $debugNote")
         return noteList[iterator]
     }
@@ -35,7 +43,11 @@ class ListIteratorNoteRepository : DataManager {
     override fun previous(): Note {
         Log.v("NoteRepositoryDebug", "previous $Note")
         iterator -= 1
-        if (iterator < 0) {
+
+        if(noteList.size == 0) {
+            return Note()
+        }
+        else if (iterator < 0) {
             iterator = this.noteList.last().id
         }
         var debugNote = noteList[iterator]
@@ -44,7 +56,6 @@ class ListIteratorNoteRepository : DataManager {
     }
 
     override fun add(newNote: Note) {
-        newNote.id = noteList.size
         Log.v("NoteRepositoryDebug", "Add $newNote")
         noteList.add(newNote)
     }
@@ -59,14 +70,15 @@ class ListIteratorNoteRepository : DataManager {
     }
 
     private fun dump() {
-        val fileService = FileService()
+        val fileService = FileService(context)
         val json = Json
-        fileService.write(fileName, json.encodeToString(noteList))
+        runBlocking { fileService.write(fileName, json.encodeToString(noteList)) }
     }
 
     override fun getCurrentIndex(): Int = iterator
     override fun setCurrentIndex(newIndex: Int) {
         iterator = newIndex
     }
-    override fun getMaxId(): Int = noteList.size
+
+    override fun getMaxId(): Int = noteList.size - 1
 }

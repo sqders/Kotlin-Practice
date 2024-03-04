@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"/>
 
     <application
+        android:name=".PersonalManagerApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,12 +19,14 @@
             android:name=".AddActivity"
             android:exported="false"
             android:label="@string/title_activity_add"
-            android:theme="@style/Theme.PersonalManager" />
+            android:theme="@style/Theme.PersonalManager"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".EditActivity"
             android:exported="false"
             android:label="@string/title_activity_edit"
-            android:theme="@style/Theme.PersonalManager" />
+            android:theme="@style/Theme.PersonalManager"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -34,5 +39,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

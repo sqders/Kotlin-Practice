@@ -8,9 +8,9 @@ import kotlinx.coroutines.Dispatchers
 class Graph(private val app: Application) {
     val coroutineScope by lazy { CoroutineScope(Dispatchers.IO) }
 
-    val dataManager by lazy { ListIteratorNoteRepository() }
+    val dataManager by lazy { ListIteratorNoteRepository(app.applicationContext) }
 }
-class PersonalManagerApp(): Application(){
+class PersonalManagerApp: Application(){
     val graph by lazy { Graph(this) }
     override fun onCreate() {
         super.onCreate()

@@ -8,4 +8,7 @@
     <string name="title_activity_edit">EditActivity</string>
     <string name="title_activity_add">AddActivity</string>
     <string name="add_note_string">ДОБАВИТЬ</string>
+    <string name="note_default_title">Записка</string>
+    <string name="landscape">LANDSCAPE</string>
+    <string name="button_reduct">РЕДАКТИРОВАТЬ</string>
 </resources>
