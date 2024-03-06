@@ -11,4 +11,5 @@
     <string name="note_default_title">Записка</string>
     <string name="landscape">LANDSCAPE</string>
     <string name="button_reduct">РЕДАКТИРОВАТЬ</string>
+    <string name="note_list_activity_label">Список Записок</string>
 </resources>

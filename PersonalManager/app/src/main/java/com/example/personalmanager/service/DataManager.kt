@@ -11,5 +11,6 @@ interface DataManager {
     fun getMaxId(): Int
     fun getCurrentIndex(): Int
     fun setCurrentIndex(newIndex:Int)
+    fun getNoteList():List<Note>
 
 }

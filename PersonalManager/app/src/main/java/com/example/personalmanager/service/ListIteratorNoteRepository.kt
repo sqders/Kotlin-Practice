@@ -81,4 +81,6 @@ class ListIteratorNoteRepository(val context: Context) : DataManager {
     }
 
     override fun getMaxId(): Int = noteList.size - 1
+
+    override fun getNoteList(): List<Note> = noteList
 }

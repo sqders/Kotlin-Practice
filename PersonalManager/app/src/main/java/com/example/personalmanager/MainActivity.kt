@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataManager: DataManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.v("MainActivityDebug", "onCreate")
+        Log.d("MainActivityDebug", "onCreate")
 
         super.onCreate(savedInstanceState)
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             setContentView(R.layout.main_activity_album)
             Toast.makeText(applicationContext, "ORIENTATION_LANDSCAPE", Toast.LENGTH_SHORT).show()
-            var fragment = supportFragmentManager.findFragmentById(R.id.fragmentNoteList)
-            if(fragment == null){
-                fragment = ListFragment()
-                supportFragmentManager.beginTransaction().add(R.id.fragmentNoteList,fragment).commit()
+            val textView: TextView = this.findViewById(R.id.landscapeTextView)
+            textView.setOnClickListener{
+                val intent = Intent(this@MainActivity, NoteListActivity::class.java)
+                startActivity(intent)
             }
         }
         dataManager = graph.dataManager
@@ -112,12 +112,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
-        Log.v("MainActivityDebug", "onStart")
+        Log.d("MainActivityDebug", "onStart")
         super.onStart()
     }
 
     override fun onResume() {
-        Log.v("MainActivityDebug", "onResume")
+        Log.d("MainActivityDebug", "onResume")
         super.onResume()
         val titleTextView: TextView = findViewById(R.id.noteTitleView)
         val descriptionTextView: TextView = findViewById(R.id.noteDescriptionView)
@@ -128,30 +128,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        Log.v("MainActivityDebug", "onPause")
+        Log.d("MainActivityDebug", "onPause")
         super.onPause()
     }
 
     override fun onStop() {
-        Log.v("MainActivityDebug", "onStop")
+        Log.d("MainActivityDebug", "onStop")
         super.onStop()
     }
 
     override fun onDestroy() {
-        Log.v("MainActivityDebug", "onDestroy")
+        Log.d("MainActivityDebug", "onDestroy")
         super.onDestroy()
         dataManager.destroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        Log.v("MainActivityDebug", "onSaveInstanceState")
+        Log.d("MainActivityDebug", "onSaveInstanceState")
         super.onSaveInstanceState(outState)
         outState.putInt("count", dataManager.getCurrentIndex())
         dataManager.destroy()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        Log.v("MainActivityDebug", "onRestoreInstanceState")
+        Log.d("MainActivityDebug", "onRestoreInstanceState")
         super.onRestoreInstanceState(savedInstanceState)
     }
 }
