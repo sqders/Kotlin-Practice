@@ -22,17 +22,20 @@
 
     </androidx.constraintlayout.helper.widget.Flow>
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentNoteList"
-        android:layout_width="0dp"
+        android:name="com.example.personalmanager.ListFragment"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/fragmentDetail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="Instantiatable,MissingConstraints" />
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:name="com.example.personalmanager.EditNoteFragment"
         android:id="@+id/fragmentDetail"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -40,5 +43,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/fragmentNoteList"
         app:layout_constraintTop_toBottomOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="Instantiatable,MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.example.personalmanager
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -16,44 +18,16 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class EditActivity : AppCompatActivity() {
-    private val graph by lazy {(this.application as PersonalManagerApp).graph}
-    private lateinit var dataManager : DataManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.edit_activity)
-        dataManager = graph.dataManager
-        dataManager.setCurrentIndex(dataManager.getCurrentIndex().minus(1))
-        var note = dataManager.next()
-        val titleTextView: EditText = findViewById(R.id.noteTitleText)
-        val descriptionTextView: EditText = findViewById(R.id.noteDescriptionText)
-        titleTextView.setText(note.title)
-        descriptionTextView.setText(note.noteDescription)
-
-        val editButton: Button = findViewById(R.id.saveNoteButton)
-        editButton.setOnClickListener(EditButtonOnClickListener())
+        setContentView(R.layout.edit_fragment_activity)
+        val fragment = EditNoteFragment()
+        val args = Bundle()
+        args.putString("title",intent.getStringExtra("title"))
+        args.putString("noteDescription",intent.getStringExtra("noteDescription"))
+        args.putInt("id",intent.getIntExtra("id",0))
+        fragment.arguments = args
+        supportFragmentManager.beginTransaction().add(R.id.editNoteContainer,fragment).commit()
     }
-    inner class EditButtonOnClickListener : View.OnClickListener {
-        override fun onClick(view: View?) {
-            var titleTextView: TextView = findViewById(R.id.noteTitleText)
-            var descriptionTextView: TextView = findViewById(R.id.noteDescriptionText)
-            dataManager.save(
-                Note(
-                    title = titleTextView.text.toString(),
-                    noteDescription = descriptionTextView.text.toString(),
-                    id = dataManager.getCurrentIndex()
-                ).also { Toast.makeText(applicationContext, Json.encodeToString(it), Toast.LENGTH_LONG).show() }
-            )
-            finish()
-        }
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        dataManager.destroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
-
 }

@@ -10,11 +10,11 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import com.example.personalmanager.model.Note
 import com.example.personalmanager.service.DataManager
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+
 
 class MainActivity : AppCompatActivity() {
     private val graph by lazy { (this.application as PersonalManagerApp).graph }
@@ -43,12 +43,14 @@ class MainActivity : AppCompatActivity() {
         val addButton: Button = this.findViewById(R.id.addNoteButtonToActivity)
         val editButton: Button = this.findViewById(R.id.editNoteButtonToActivity)
         val lastButton: Button = this.findViewById(R.id.showLastNoteButton)
+        val listButton:Button = this.findViewById(R.id.showListButton)
 
         nextButton.setOnClickListener(NextButtonOnClickListener())
         previousButton.setOnClickListener(PreviousButtonOnClickListener())
         addButton.setOnClickListener(AddButtonOnClickListener())
         editButton.setOnClickListener(EditButtonOnClickListener())
         lastButton.setOnClickListener(LastButtonOnClickListener())
+        listButton.setOnClickListener(ListButtonOnClickListener())
 
 
         val titleTextView: TextView = findViewById(R.id.noteTitleView)
@@ -56,6 +58,13 @@ class MainActivity : AppCompatActivity() {
         val nextNote: Note = dataManager.next()
         titleTextView.text = nextNote.title
         descriptionTextView.text = nextNote.noteDescription
+    }
+
+    inner class ListButtonOnClickListener : View.OnClickListener {
+        override fun onClick(view: View?) {
+            val intent = Intent(this@MainActivity, ListActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     inner class NextButtonOnClickListener : View.OnClickListener {
@@ -93,7 +102,12 @@ class MainActivity : AppCompatActivity() {
         override fun onClick(view: View?) {
             if (dataManager.getMaxId() != -1) {
                 val intent = Intent(this@MainActivity, EditActivity::class.java)
-                startActivity(intent)
+                dataManager.setCurrentIndex(dataManager.getCurrentIndex().minus(1))
+                val note: Note = dataManager.next()
+                intent.putExtra("title",note.title)
+                intent.putExtra("noteDescription",note.noteDescription)
+                intent.putExtra("id",note.id)
+                startActivity(intent);
             }
         }
     }
@@ -153,5 +167,28 @@ class MainActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         Log.d("MainActivityDebug", "onRestoreInstanceState")
         super.onRestoreInstanceState(savedInstanceState)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                val titleTextView: TextView = findViewById(R.id.noteTitleView)
+                val descriptionTextView: TextView = findViewById(R.id.noteDescriptionView)
+                val id = data?.getIntExtra("id",-1)
+                if(dataManager.getCurrentIndex() < id!!) {
+                    val title = data.getStringExtra("title")!!
+                    val noteDescription = data.getStringExtra("noteDescription")!!
+                    dataManager.save(Note(title,noteDescription,id))
+                    titleTextView.text = title
+                    descriptionTextView.text = noteDescription
+                }else{
+                    dataManager.setCurrentIndex(dataManager.getCurrentIndex().minus(1))
+                    val nextNote: Note = dataManager.next()
+                    titleTextView.text = nextNote.title
+                    descriptionTextView.text = nextNote.noteDescription
+                }
+            }
+        }
     }
 }

@@ -1,17 +1,14 @@
 package com.example.personalmanager
 
+import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.personalmanager.model.Note
 import com.example.personalmanager.service.DataManager
-import com.example.personalmanager.service.ListIteratorNoteRepository
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -33,15 +30,19 @@ class AddActivity : AppCompatActivity() {
 
     inner class AddButtonOnClickListener : View.OnClickListener {
         override fun onClick(view: View?) {
-            var titleTextView: EditText = findViewById(R.id.noteTitleTextToAdd)
-            var descriptionTextView: EditText = findViewById(R.id.noteDescriptionTextToAdd)
-            dataManager.add(
-                Note(
+            val titleTextView: EditText = findViewById(R.id.noteTitleTextToAdd)
+            val descriptionTextView: EditText = findViewById(R.id.noteDescriptionTextToAdd)
+            val note = Note(
                     title = titleTextView.text.toString(),
                     noteDescription = descriptionTextView.text.toString(),
                     id = dataManager.getCurrentIndex()
                 ).also { Toast.makeText(applicationContext, Json.encodeToString(it), Toast.LENGTH_LONG).show() }
-            )
+            dataManager.add(note)
+            val intent = Intent()
+            intent.putExtra("title",note.title)
+            intent.putExtra("id",note.id)
+            intent.putExtra("noteDescription",note.noteDescription)
+            setResult(RESULT_OK,intent)
             finish()
         }
     }
