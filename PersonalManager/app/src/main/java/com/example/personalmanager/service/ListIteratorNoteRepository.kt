@@ -62,7 +62,7 @@ class ListIteratorNoteRepository(val context: Context) : DataManager {
 
     override fun save(editNote: Note) {
         Log.v("NoteRepositoryDebug", "Save $editNote")
-        noteList[iterator] = editNote
+        noteList[editNote.id] = editNote
     }
 
     override fun destroy() {

@@ -20,6 +20,9 @@ class EditNoteFragment:Fragment() {
     private lateinit var titleTextView: EditText
     private lateinit var descriptionTextView: EditText
 
+    interface FinishActivity{
+        fun finishActivity()
+    }
     companion object{
         fun newInstance(note:Note):EditNoteFragment{
             val fragment = EditNoteFragment()
@@ -27,6 +30,7 @@ class EditNoteFragment:Fragment() {
             args.putString("title",note.title)
             args.putString("noteDescription",note.noteDescription)
             args.putInt("id",note.id)
+            args.putBoolean("checked",note.checked)
             fragment.arguments = args
             return fragment
         }
@@ -38,7 +42,8 @@ class EditNoteFragment:Fragment() {
         note = Note(
             title = arguments?.getString("title")!!,
             noteDescription =  arguments?.getString("noteDescription")!!,
-            id = arguments?.getInt("id")!!
+            id = arguments?.getInt("id")!!,
+            checked = arguments?.getBoolean("checked")!!
         )
     }
 
@@ -63,10 +68,12 @@ class EditNoteFragment:Fragment() {
             val note = Note(
                 title = titleTextView.text.toString(),
                 noteDescription = descriptionTextView.text.toString(),
-                id = note.id
+                id = note.id,
+                checked = note.checked
             )
             dataManager.save(note)
-            activity?.finish()
+            val finishActivity:FinishActivity = (activity as? FinishActivity)!!
+            finishActivity.finishActivity()
         }
     }
     override fun onDestroy() {

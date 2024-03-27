@@ -17,7 +17,7 @@ import com.example.personalmanager.service.ListIteratorNoteRepository
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class EditActivity : AppCompatActivity() {
+class EditActivity : AppCompatActivity(),EditNoteFragment.FinishActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,12 @@ class EditActivity : AppCompatActivity() {
         args.putString("title",intent.getStringExtra("title"))
         args.putString("noteDescription",intent.getStringExtra("noteDescription"))
         args.putInt("id",intent.getIntExtra("id",0))
+        args.putBoolean("checked",intent.getBooleanExtra("checked",false))
         fragment.arguments = args
         supportFragmentManager.beginTransaction().add(R.id.editNoteContainer,fragment).commit()
+    }
+
+    override fun finishActivity() {
+        finish()
     }
 }

@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.unit.Density
 import com.example.personalmanager.model.Note
 import com.example.personalmanager.service.DataManager
 import kotlinx.serialization.encodeToString
@@ -64,9 +65,9 @@ class MainActivity : AppCompatActivity() {
     inner class ListButtonOnClickListener : View.OnClickListener {
         override fun onClick(view: View?) {
             if(isTablet()){
-                startActivity(Intent(this@MainActivity, ListActivity::class.java))
-            }else {
                 startActivity(Intent(this@MainActivity,NoteListActivity::class.java))
+            }else {
+                startActivity(Intent(this@MainActivity, ListActivity::class.java))
             }
         }
     }
@@ -196,6 +197,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun Context.isTablet(): Boolean {
-        return (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE
+        return resources.configuration.smallestScreenWidthDp >= 600
     }
 }

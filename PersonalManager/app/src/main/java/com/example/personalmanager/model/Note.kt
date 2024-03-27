@@ -12,7 +12,8 @@ import kotlinx.serialization.json.Json.Default.encodeToString
 data class Note(
     @EncodeDefault val title: String = "",
     @EncodeDefault val noteDescription: String = "",
-    @EncodeDefault var id: Int = -1
+    @EncodeDefault var id: Int = -1,
+    @EncodeDefault var checked: Boolean = false
 ){
     override fun toString(): String = encodeToString(serializer= serializer(),this)
 }

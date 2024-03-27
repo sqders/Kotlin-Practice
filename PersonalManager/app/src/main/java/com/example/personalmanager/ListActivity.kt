@@ -21,6 +21,7 @@ class ListActivity : AppCompatActivity(),MyListFragment.OnItemClickListener {
         intent.putExtra("title",note.title)
         intent.putExtra("id",note.id)
         intent.putExtra("noteDescription",note.noteDescription)
+        intent.putExtra("checked",note.checked)
         startActivity(intent)
     }
 }

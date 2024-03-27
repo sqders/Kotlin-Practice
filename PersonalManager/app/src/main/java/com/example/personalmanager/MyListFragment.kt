@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -60,12 +62,15 @@ class MyListFragment: Fragment(){
 
     inner class NoteListAdapter():RecyclerView.Adapter<NoteListAdapter.NoteViewHolder>(){
 
-        inner class NoteViewHolder(var textView: TextView) : RecyclerView.ViewHolder(textView){
+        inner class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view){
+            val icon: ImageView = view.findViewById(R.id.noteIcon)
+            val textView: TextView = view.findViewById(R.id.noteItemTextView)
+            val checkbox: CheckBox = view.findViewById(R.id.noteCheckbox)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
             val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-            return NoteViewHolder(v as TextView)
+            return NoteViewHolder(v)
         }
 
         override fun getItemCount(): Int {
@@ -74,6 +79,12 @@ class MyListFragment: Fragment(){
 
         override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
             holder.textView.text = noteArrayList[position].title
+            holder.checkbox.isChecked = noteArrayList[position].checked
+            holder.checkbox.setOnCheckedChangeListener{_,isChecked ->
+                Log.d(this.javaClass.name,Json.encodeToString(noteArrayList[position]))
+                noteArrayList[position].checked = isChecked
+                dataManager.save(noteArrayList[position])
+            }
             holder.textView.setOnClickListener{listener.onItemClick(noteArrayList[position])}
         }
     }
