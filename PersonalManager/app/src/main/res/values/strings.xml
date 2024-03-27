@@ -14,4 +14,5 @@
     <string name="note_list_activity_label">Список Записок</string>
     <string name="showListButtonText">Список</string>
     <string name="listactivity">ListActivity</string>
+    <string name="listfragment">ListFragment</string>
 </resources>

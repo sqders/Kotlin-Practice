@@ -19,6 +19,18 @@ class EditNoteFragment:Fragment() {
     private lateinit var note: Note
     private lateinit var titleTextView: EditText
     private lateinit var descriptionTextView: EditText
+
+    companion object{
+        fun newInstance(note:Note):EditNoteFragment{
+            val fragment = EditNoteFragment()
+            val args = Bundle()
+            args.putString("title",note.title)
+            args.putString("noteDescription",note.noteDescription)
+            args.putInt("id",note.id)
+            fragment.arguments = args
+            return fragment
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val graph = (activity?.application as PersonalManagerApp).graph
@@ -51,7 +63,7 @@ class EditNoteFragment:Fragment() {
             val note = Note(
                 title = titleTextView.text.toString(),
                 noteDescription = descriptionTextView.text.toString(),
-                id = dataManager.getCurrentIndex()
+                id = note.id
             )
             dataManager.save(note)
             activity?.finish()

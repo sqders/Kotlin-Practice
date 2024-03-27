@@ -1,5 +1,6 @@
 package com.example.personalmanager
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -62,8 +63,11 @@ class MainActivity : AppCompatActivity() {
 
     inner class ListButtonOnClickListener : View.OnClickListener {
         override fun onClick(view: View?) {
-            val intent = Intent(this@MainActivity, ListActivity::class.java)
-            startActivity(intent)
+            if(isTablet()){
+                startActivity(Intent(this@MainActivity, ListActivity::class.java))
+            }else {
+                startActivity(Intent(this@MainActivity,NoteListActivity::class.java))
+            }
         }
     }
 
@@ -190,5 +194,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+    fun Context.isTablet(): Boolean {
+        return (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE
     }
 }

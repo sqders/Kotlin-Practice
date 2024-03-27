@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NoteListActivity">
+    android:orientation="horizontal"
+    tools:context=".NoteListActivity"
+    tools:ignore="MissingDefaultResource">
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/fragmentFlow"
         android:layout_width="0dp"
@@ -24,7 +26,6 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentNoteList"
-        android:name="com.example.personalmanager.ListFragment"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,7 +36,6 @@
         tools:ignore="Instantiatable,MissingConstraints" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:name="com.example.personalmanager.EditNoteFragment"
         android:id="@+id/fragmentDetail"
         android:layout_width="0dp"
         android:layout_height="match_parent"
